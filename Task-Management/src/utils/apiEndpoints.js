@@ -1,6 +1,6 @@
 // ==================== ENVIRONMENT CONFIGURATION ====================
 
-const BASE_URL = "https://task-management-m9k9.onrender.com";
+const BASE_URL = "https://task-management-m9k9.onrender.com/api";
 
 // ==================== API ENDPOINTS ====================
 
