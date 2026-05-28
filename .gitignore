@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+*.log
+build
+
+Backend/node_modules
+Backend/dist
+Backend/.env
+
+Task-Management/node_modules
+Task-Management/dist
+Task-Management/build
