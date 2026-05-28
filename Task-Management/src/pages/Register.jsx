@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { TextField, Button, InputAdornment, IconButton } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { TextField, Button, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import { Visibility, VisibilityOff, PersonAdd } from '@mui/icons-material';
 import { registerApi } from '../services/authService';
 import { loginSuccess } from '../store/reducers/authSlice';
@@ -10,6 +10,7 @@ import { showSuccess, showError } from '../utils/toast';
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -79,6 +80,11 @@ const Register = () => {
 
   return (
     <div className="auth-container">
+      {loading && (
+        <div className="loading-overlay">
+          <CircularProgress size={60} />
+        </div>
+      )}
       <div className="auth-card">
         <div className="auth-header">
           <h1>Create Account</h1>
@@ -96,6 +102,7 @@ const Register = () => {
                 error={!!errors.name}
                 helperText={errors.name}
                 variant="outlined"
+                disabled={loading}
               />
             </div>
             <div className="form-group">
@@ -109,6 +116,7 @@ const Register = () => {
                 error={!!errors.email}
                 helperText={errors.email}
                 variant="outlined"
+                disabled={loading}
               />
             </div>
             <div className="form-group">
@@ -122,12 +130,14 @@ const Register = () => {
                 error={!!errors.password}
                 helperText={errors.password}
                 variant="outlined"
+                disabled={loading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() => setShowPassword(!showPassword)}
                         edge="end"
+                        disabled={loading}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -141,7 +151,8 @@ const Register = () => {
               fullWidth
               variant="contained"
               size="large"
-              startIcon={<PersonAdd />}
+              startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <PersonAdd />}
+              disabled={loading}
               sx={{
                 mt: 2,
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -150,7 +161,7 @@ const Register = () => {
                 },
               }}
             >
-              Sign Up
+              {loading ? 'Signing Up...' : 'Sign Up'}
             </Button>
           </form>
           <div className="form-link">

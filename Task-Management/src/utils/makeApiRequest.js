@@ -122,6 +122,24 @@ const makeApiRequest = async (url, options, header, dispatch, token = null) => {
     }
 
     if (status === 401) {
+      const isLoginOrRegister = url.includes('/auth/login') || url.includes('/auth/register');
+      
+      if (isLoginOrRegister) {
+        if (error.response?.data) {
+          const originalMessage = error.response.data.message || error.response.data.error;
+          return {
+            ...error.response.data,
+            message: originalMessage || "Invalid credentials"
+          };
+        }
+        return {
+          success: false,
+          statusCode: 401,
+          message: "Invalid credentials",
+          data: null,
+        };
+      }
+      
       showOverlay(
         "Session Expired",
         "Your session has expired. Please log in again.",
